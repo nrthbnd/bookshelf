@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from models import Book
+from models.book import Book
 
 
 class CRUDBook:

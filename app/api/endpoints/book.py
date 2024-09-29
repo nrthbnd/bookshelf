@@ -3,7 +3,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from crud import book_crud
 from core.db import get_async_session
-from schemas import BookCreate, BookDB, BookUpdate
+from core.user import current_user
+from schemas.book import BookCreate, BookDB, BookUpdate
 from api.validators import check_obj_exists, check_name_duplicate
 from constants import CLEAR_ROUTE, BOOK_ID_ROUTE, BOOK_NOT_EXISTS_EXCEPTION
 
@@ -13,6 +14,7 @@ router = APIRouter()
 @router.post(
     CLEAR_ROUTE,
     response_model=BookDB,
+    dependencies=[Depends(current_user)],
 )
 async def create_new_book(
     book: BookCreate,
@@ -26,6 +28,7 @@ async def create_new_book(
 @router.get(
     CLEAR_ROUTE,
     response_model=list[BookDB],
+    dependencies=[Depends(current_user)],
 )
 async def get_all_books(
     session: AsyncSession = Depends(get_async_session),
@@ -38,6 +41,7 @@ async def get_all_books(
 @router.get(
     BOOK_ID_ROUTE,
     response_model=BookDB,
+    dependencies=[Depends(current_user)],
 )
 async def get_book(
     book_id: int,
@@ -51,6 +55,7 @@ async def get_book(
 @router.patch(
     BOOK_ID_ROUTE,
     response_model=BookDB,
+    dependencies=[Depends(current_user)],
 )
 async def partially_update_book(
     book_id: int,
@@ -72,6 +77,7 @@ async def partially_update_book(
 @router.delete(
     BOOK_ID_ROUTE,
     response_model=BookDB,
+    dependencies=[Depends(current_user)],
 )
 async def remove_book(
     book_id: int,
