@@ -1,0 +1,22 @@
+FROM python:3.12.5-slim
+
+# Создаем рабочую директорию
+WORKDIR /fastapi_app
+
+# Устанавливаем Poetry и настраиваем его
+RUN pip install poetry && poetry config virtualenvs.create false
+
+# Копируем файлы проекта
+COPY pyproject.toml poetry.lock ./
+
+# Устанавливаем зависимости
+RUN poetry install
+
+# Копируем остальные файлы проекта
+COPY . /fastapi_app/
+
+# Делаем скрипт исполняемым
+RUN chmod +x /fastapi_app/app/docker-entrypoint.sh
+
+# Устанавливаем точку входа
+ENTRYPOINT ["/fastapi_app/app/docker-entrypoint.sh"]

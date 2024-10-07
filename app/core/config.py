@@ -16,6 +16,11 @@ class Settings(BaseSettings):
     secret: str = os.getenv('SECRET')
     first_superuser_email: Optional[EmailStr] = None
     first_superuser_password: Optional[str] = None
+    DB_USER: str
+    DB_PASSWORD: str
+    DB_HOST: str
+    DB_PORT: str
+    DB_NAME: str
 
     class Config:
         """Файл с переменными окружения."""
