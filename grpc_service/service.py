@@ -4,9 +4,8 @@ import logging
 from concurrent import futures
 from sqlalchemy.future import select
 
-from crud import book_crud
-from core.db import get_async_session
-from models import Book
+from app.crud import book_crud, Book
+from app.core.db import get_async_session
 from proto import book_pb2_grpc, book_pb2
 
 
