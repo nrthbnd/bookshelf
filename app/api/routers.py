@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
 from constants import BOOK_ROUTER_PREFIX, BOOK_ROUTER_TAG
-
 from api.endpoints import book_router, user_router
 
 
