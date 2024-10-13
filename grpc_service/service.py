@@ -6,6 +6,7 @@ from sqlalchemy.future import select
 
 from app.crud import book_crud, Book
 from app.core.db import get_async_session
+from logging_config import setup_logging
 from proto import book_pb2_grpc, book_pb2
 
 
@@ -50,10 +51,11 @@ async def serve() -> None:
     listen_port = '[::]:50051'
     server.add_insecure_port(listen_port)
     await server.start()
-    logging.info(f'Server is running on {listen_port}')
+    logger.info(f'Server is running on {listen_port}')
     await server.wait_for_termination()
 
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    setup_logging()
+    logger = logging.getLogger("grpc")
     asyncio.run(serve())

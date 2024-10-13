@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     class Config:
         """Файл с переменными окружения."""
         env_file = ENV_FILE_NAME
+        extra = "ignore"
 
 
 settings = Settings()
