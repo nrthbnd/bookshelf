@@ -1,12 +1,13 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from broker.publisher import produce_message
+from api.validators import check_obj_exists, check_name_duplicate
 from crud import book_crud
 from core.db import get_async_session
 from core.user import current_user
-from schemas.book import BookCreate, BookDB, BookUpdate
-from api.validators import check_obj_exists, check_name_duplicate
 from constants import CLEAR_ROUTE, BOOK_ID_ROUTE, BOOK_NOT_EXISTS_EXCEPTION
+from schemas.book import BookCreate, BookDB, BookUpdate
 
 router = APIRouter()
 
@@ -22,7 +23,9 @@ async def create_new_book(
 ):
     """Создать новую книгу."""
     await check_name_duplicate(book_title=book.title, session=session)
-    return await book_crud.create(obj_in=book, session=session)
+    new_book = await book_crud.create(obj_in=book, session=session)
+    await produce_message("create", new_book)
+    return new_book
 
 
 @router.get(
@@ -71,7 +74,10 @@ async def partially_update_book(
     )
     if obj_in.title is not None:
         await check_name_duplicate(book_title=obj_in.title, book_in_id=book_id, session=session)
-    return await book_crud.update(db_obj=book, obj_in=obj_in, session=session)
+
+    updated_book = await book_crud.update(db_obj=book, obj_in=obj_in, session=session)
+    await produce_message("update", updated_book)
+    return updated_book
 
 
 @router.delete(
@@ -90,4 +96,6 @@ async def remove_book(
         exception=BOOK_NOT_EXISTS_EXCEPTION,
         session=session,
     )
-    return await book_crud.remove(db_obj=book, session=session)
+    removed_book = await book_crud.remove(db_obj=book, session=session)
+    await produce_message("delete", removed_book)
+    return removed_book

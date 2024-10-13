@@ -16,7 +16,7 @@ grpcio = "^1.66.2"
 grpcio-tools = "^1.66.2"
 fastapi-users = {extras = ["oauth", "sqlalchemy"], version = "^13.0.0"}
 uvicorn = "^0.31.0"
-
+aio-pika = "^9.4.3"
 
 [build-system]
 requires = ["poetry-core"]

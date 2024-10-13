@@ -15,6 +15,9 @@ RUN poetry install
 # Копируем остальные файлы проекта
 COPY . /fastapi_app/
 
+# Добавляем broker в PYTHONPATH
+ENV PYTHONPATH="/fastapi_app:${PYTHONPATH}"
+
 # Делаем скрипт исполняемым
 RUN chmod +x /fastapi_app/app/docker-entrypoint.sh
 

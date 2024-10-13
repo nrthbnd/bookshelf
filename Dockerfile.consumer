@@ -1,0 +1,19 @@
+FROM python:3.12.5-slim
+
+# Создаем рабочую директорию
+WORKDIR /rmq_broker
+
+# Устанавливаем Poetry и настраиваем его
+RUN pip install poetry && poetry config virtualenvs.create false
+
+# Копируем файлы проекта
+COPY pyproject.toml poetry.lock ./
+
+# Устанавливаем зависимости
+RUN poetry install
+
+# Копируем файлы проекта
+COPY . /rmq_broker/
+
+# Запускаем consumer
+CMD ["python", "-m", "broker.consumer"]
