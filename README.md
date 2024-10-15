@@ -16,11 +16,11 @@
 
 2. Cоздать и активировать виртуальное окружение:
 
-`python -m venv venv`
+- `python -m venv venv`
 
-`source venv/scripts/activate  # Для Windows`
+- `source venv/scripts/activate  # Для Windows`
 
-`source venv/bin/activate  # Для Linux/MacOS`
+- `source venv/bin/activate  # Для Linux/MacOS`
 
 3. Установить зависимости с помощью poetry:
 `poetry install`
