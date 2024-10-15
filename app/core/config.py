@@ -1,6 +1,5 @@
 import os
 from dotenv import load_dotenv
-from typing import Optional
 from pydantic import EmailStr
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -14,8 +13,8 @@ class Settings(BaseSettings):
     app_title: str = APP_TITLE
     database_url: str
     secret: str = os.getenv('SECRET')
-    first_superuser_email: Optional[EmailStr] = None
-    first_superuser_password: Optional[str] = None
+    first_superuser_email: EmailStr | None = None
+    first_superuser_password: str | None = None
     DB_USER: str
     DB_PASSWORD: str
     DB_HOST: str

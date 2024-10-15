@@ -13,6 +13,3 @@ ENV_FILE_NAME = '../.env'
 # api/validators
 NAME_DUPLICATE_EXCEPTION = 'Книга с таким названием уже существует!'
 BOOK_NOT_EXISTS_EXCEPTION = 'Книга не найдена!'
-
-# schemas/wish
-EMPTY_FIELD_ERROR = 'Поле {} не может быть пустым!'

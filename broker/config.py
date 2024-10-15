@@ -1,8 +1,8 @@
-import os
+from os import path
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env.rmq'))
+load_dotenv(dotenv_path=path.join(path.dirname(__file__), '..', '.env.rmq'))
 
 
 class Settings(BaseSettings):

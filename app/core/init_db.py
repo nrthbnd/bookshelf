@@ -26,7 +26,7 @@ async def create_user(
                             email=email,
                             password=password,
                             is_superuser=is_superuser,
-                        )
+                        ),
                     )
 
 async def create_first_superuser():

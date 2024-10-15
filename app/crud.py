@@ -1,4 +1,3 @@
-from typing import Optional
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -75,12 +74,12 @@ class CRUDBook:
         self,
         book_title: str,
         session: AsyncSession,
-    ) -> Optional[int]:
+    ) -> int | None:
         """Получить id книги по ее названию."""
         db_book_id = await session.execute(
             select(Book.id).where(
-                Book.title == book_title
-            )
+                Book.title == book_title,
+            ),
         )
         return db_book_id.scalars().first()
 
