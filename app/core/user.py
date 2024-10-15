@@ -37,7 +37,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
     async def validate_password(
         self,
         password: str,
-        user: Union[UserCreate, User],
+        user: UserCreate | User,
     ) -> None:
         if len(password) < 3:
             raise InvalidPasswordException(
@@ -49,7 +49,7 @@ class UserManager(IntegerIDMixin, BaseUserManager[User, int]):
             )
 
     async def on_after_register(
-        self, user: User, request: Optional[Request] = None
+        self, user: User, request: Request | None = None,
     ):
         print(f'Пользователь {user.email} зарегистрирован.')
 
