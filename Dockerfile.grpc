@@ -1,0 +1,22 @@
+FROM python:3.12.5-slim
+
+# Создаем рабочую директорию
+WORKDIR /grpc_service_app
+
+# Устанавливаем Poetry и настраиваем его
+RUN pip install poetry && poetry config virtualenvs.create false
+
+# Копируем файлы проекта
+COPY pyproject.toml poetry.lock ./
+
+# Устанавливаем зависимости
+RUN poetry install
+
+# Копируем файлы проекта
+COPY . .
+
+# Указываем PYTHONPATH
+ENV PYTHONPATH="/grpc_service_app:/grpc_service_app/app:/grpc_service_app/grpc_service"
+
+# Запускаем gRPC сервис
+CMD ["python", "-m", "grpc_service.service"]

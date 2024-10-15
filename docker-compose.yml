@@ -1,0 +1,88 @@
+services:
+
+  fastapi:
+      build:
+        context: .
+        dockerfile: Dockerfile.fastapi
+      container_name: "bookshelf_fastapi"
+      restart: unless-stopped
+      ports:
+        - "8000:8000"
+      networks:
+        - app-network
+      depends_on:
+        rabbitmq:
+          condition: service_healthy
+        db:
+          condition: service_healthy
+
+  grpc:
+      build:
+        context: .
+        dockerfile: Dockerfile.grpc
+      container_name: "bookshelf_grpc"
+      restart: unless-stopped
+      ports:
+        - "50051:50051"
+      depends_on:
+        - fastapi
+      networks:
+        - app-network
+
+  db:
+      image: postgres:15
+      container_name: "bookshelf_db"
+      restart: unless-stopped
+      environment:
+        POSTGRES_USER: ${DB_USER}
+        POSTGRES_PASSWORD: ${DB_PASSWORD}
+        POSTGRES_DB: ${DB_NAME}
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+      networks:
+        - app-network
+      healthcheck:
+        test: [ "CMD-SHELL", "pg_isready -U ${DB_USER}" ]
+        interval: 30s
+        timeout: 30s
+        retries: 5
+
+  rabbitmq:
+      image: "rabbitmq:3-management"
+      ports:
+        - "5672:5672"
+        - "15672:15672"
+      env_file:
+        - ".env.rmq"
+      healthcheck:
+        test: [ "CMD", "rabbitmqctl", "status" ]
+        interval: 30s
+        timeout: 30s
+        retries: 5
+      networks:
+        - app-network
+
+  consumer:
+      build:
+        context: .
+        dockerfile: Dockerfile.consumer
+      container_name: "bookshelf_consumer"
+      restart: unless-stopped
+      env_file:
+        - ".env.rmq"
+      depends_on:
+        rabbitmq:
+          condition: service_healthy
+      networks:
+        - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
+
+
+volumes:
+  postgres_data:

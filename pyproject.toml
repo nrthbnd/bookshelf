@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "bookshelf"
+version = "0.1.0"
+description = ""
+authors = ["nrthbnd <asoloshenkova@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.0"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.35"}
+asyncpg = "^0.29.0"
+pydantic-settings = "^2.5.2"
+alembic = "^1.13.3"
+grpcio = "^1.66.2"
+grpcio-tools = "^1.66.2"
+fastapi-users = {extras = ["oauth", "sqlalchemy"], version = "^13.0.0"}
+uvicorn = "^0.31.0"
+aio-pika = "^9.4.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
