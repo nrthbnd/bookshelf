@@ -12,9 +12,9 @@ class Settings(BaseSettings):
     """Считывать переменные окружения из файла."""
     app_title: str = APP_TITLE
     database_url: str
-    secret: str = os.getenv('SECRET')
-    first_superuser_email: EmailStr | None = None
-    first_superuser_password: str | None = None
+    secret: str
+    first_superuser_email: EmailStr | None
+    first_superuser_password: str | None
     DB_USER: str
     DB_PASSWORD: str
     DB_HOST: str
