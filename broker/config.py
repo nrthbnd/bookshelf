@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '..', '.env.rmq'))
 
@@ -13,8 +13,7 @@ class Settings(BaseSettings):
     RMQ_QUEUE_NAME: str
     RMQ_CONNECTION_URL: str
 
-    class Config:
-        env_file = ".env.rmq"
+    model_config = SettingsConfigDict(env_file=".env.rmq")
 
 
 settings = Settings()

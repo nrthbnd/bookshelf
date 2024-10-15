@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 from typing import Optional
 from pydantic import EmailStr
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from constants import APP_TITLE, ENV_FILE_NAME
 
@@ -22,10 +22,10 @@ class Settings(BaseSettings):
     DB_PORT: str
     DB_NAME: str
 
-    class Config:
-        """Файл с переменными окружения."""
-        env_file = ENV_FILE_NAME
-        extra = "ignore"
+    model_config = SettingsConfigDict(
+        env_file=ENV_FILE_NAME,
+        extra="ignore",
+    )
 
 
 settings = Settings()
