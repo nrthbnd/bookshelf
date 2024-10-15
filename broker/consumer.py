@@ -26,7 +26,7 @@ async def consume():
                         logger.info(f"Received message: {json.loads(message.body.decode())}")
 
     except Exception as e:
-        logger.error(f"Error in consumer: {e}")
+        logger.exception(f"Error in consumer: {e}")
         raise
 
 
